@@ -1,99 +1,103 @@
-# Kütüphane Yönetim Sistemi
+# Library Management System
 
-Bu proje, ASP.NET Core kullanılarak geliştirilmiş bir kütüphane yönetim sistemidir.
+A modern, full-featured Library Management System built with **ASP.NET Core** and **MySQL**. This project helps libraries manage their books, members, reservations, and borrowing history efficiently.
 
-## Gereksinimler
+---
 
-- .NET 6.0 SDK veya daha yeni bir sürüm
-- Visual Studio 2022 veya Visual Studio Code
-- MySQL Server (8.0 veya üzeri)
+## Features
 
-## Visual Studio Code Eklentileri
+- User registration and authentication
+- Role-based access control (Admin, Member)
+- Book catalog management (add, edit, delete, search)
+- Book reservation and borrowing
+- Penalty management for overdue books
+- Dashboard with analytics and reports
+- Responsive UI with Razor Pages and Bootstrap
 
-Visual Studio Code kullanıyorsanız, aşağıdaki eklentileri yüklemeniz önerilir:
+---
 
-1. C# (ms-dotnettools.csharp) - C# dil desteği
-2. C# Dev Kit (ms-dotnettools.csdevkit) - C# geliştirme araçları
-3. .NET Core Tools (ms-dotnettools.vscode-dotnet-runtime) - .NET Core araçları
-4. NuGet Package Manager (jmrog.vscode-nuget-package-manager) - NuGet paket yönetimi
-5. SQL Server (ms-mssql.mssql) - SQL Server bağlantısı ve sorgu çalıştırma
+## Requirements
 
+- [.NET 6.0 SDK](https://dotnet.microsoft.com/download) or newer
+- Visual Studio 2022 or Visual Studio Code
+- MySQL Server 8.0+
+- Recommended VS Code Extensions:
+  - C# (ms-dotnettools.csharp)
+  - C# Dev Kit
+  - NuGet Package Manager
+  - SQL Server (ms-mssql.mssql)
 
-Bu eklentileri yüklemek için:
-1. VS Code'da Extensions sekmesini açın (Ctrl+Shift+X)
-2. Yukarıdaki eklentileri aratıp "Install" butonuna tıklayın
-3. Yükleme tamamlandıktan sonra VS Code'u yeniden başlatın
+---
 
-## Kurulum Adımları
+## Getting Started
 
-1. Projeyi bilgisayarınıza klonlayın veya ZIP olarak indirin.
+### 1. Clone the Repository
 
-2. Visual Studio ile açmak için:
-   - LibraryManagementSystem.sln dosyasına çift tıklayın
-   - NuGet paketlerinin yüklenmesini bekleyin
-   - F5 tuşuna basarak projeyi çalıştırın
+```bash
+git clone https://github.com/Batu1-1an/Library-management.git
+```
 
-3. Visual Studio Code ile açmak için:
-   - Terminal'i açın
-   - Proje klasörüne gidin: `cd LibraryManagementSystem`
-   - Aşağıdaki komutları sırasıyla çalıştırın:
-     ```
-     dotnet restore
-     dotnet build
-     dotnet run
-     ```
+### 2. Configure the Database
 
-4. Veritabanını oluşturmak için:
-   - Package Manager Console'da veya terminal'de:
-     ```
-     dotnet ef database update
-     ```
+- Ensure MySQL Server is running.
+- Update the connection string in `appsettings.json`:
 
-5. Tarayıcınızda `https://localhost:5001` veya `http://localhost:5000` adresine giderek uygulamayı görüntüleyebilirsiniz.
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=LibraryManagementSystem;User=root;Password=YOUR_PASSWORD;"
+  }
+}
+```
 
-## Veritabanı Ayarları
+### 3. Apply Migrations
 
-Projeyi çalıştırmadan önce MySQL veritabanı ayarlarını yapmanız gerekmektedir:
+```bash
+dotnet ef database update
+```
 
-1. MySQL Server'ı yükleyin ve çalıştığından emin olun
-2. `appsettings.json` dosyasındaki bağlantı dizesini kendi MySQL ayarlarınıza göre güncelleyin:
-   ```json
-   {
-     "ConnectionStrings": {
-       "DefaultConnection": "Server=localhost;Database=LibraryManagementSystem;User=root;Password=YOUR_PASSWORD;"
-     }
-   }
-   ```
-   - Server: MySQL sunucu adresi (genelde localhost)
-   - Database: Veritabanı adı (değiştirmenize gerek yok)
-   - User: MySQL kullanıcı adınız
-   - Password: MySQL şifreniz
+### 4. Build and Run
 
-## Önemli Notlar
+```bash
+dotnet restore
+dotnet build
+dotnet run
+```
 
-- MySQL Server'ın yüklü ve çalışır durumda olduğundan emin olun
-- appsettings.json dosyasındaki MySQL bağlantı bilgilerini kendi ortamınıza göre güncellemeyi unutmayın
-- Sisteme ilk kayıt olan kullanıcı otomatik olarak admin yetkisine sahip olacaktır
-- Şifre gereksinimleri:
-  - En az 8 karakter
-  - En az 1 büyük harf
-  - En az 1 küçük harf
-  - En az 1 rakam
-  - En az 1 özel karakter
+Visit `https://localhost:5001` or `http://localhost:5000` in your browser.
 
-## Sorun Giderme
+---
 
-1. "The term 'dotnet' is not recognized" hatası alırsanız:
-   - .NET SDK'nın doğru şekilde yüklendiğinden emin olun
-   - Bilgisayarınızı yeniden başlatın
-   - Terminal/PowerShell'i yeniden açın
+## Contribution Guidelines
 
-2. MySQL bağlantı hatası alırsanız:
-   - MySQL Server'ın çalıştığından emin olun
-   - MySQL kullanıcı adı ve şifrenizin doğru olduğundan emin olun
-   - appsettings.json dosyasındaki bağlantı dizesini kontrol edin
-   - MySQL'in 3306 portunda çalıştığından emin olun
+We welcome contributions! To get started:
 
-3. "Unable to create database" hatası alırsanız:
-   - MySQL kullanıcınızın veritabanı oluşturma yetkisine sahip olduğundan emin olun
-   - Belirtilen veritabanı adının kullanılabilir olduğunu kontrol edin 
+1. **Fork** the repository.
+2. **Create a branch** for your feature or fix.
+3. **Commit** your changes with clear messages.
+4. **Push** to your fork.
+5. **Open a Pull Request** describing your changes.
+
+Please ensure your code follows best practices and includes appropriate tests.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
+
+---
+
+## Contact
+
+For questions or suggestions, please open an issue or contact the maintainer via GitHub.
+
+---
+
+## Acknowledgements
+
+- Built with ASP.NET Core
+- Uses Entity Framework Core
+- Frontend styled with Bootstrap
+
+---
