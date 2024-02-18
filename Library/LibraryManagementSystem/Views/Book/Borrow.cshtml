@@ -1,0 +1,152 @@
+@{
+    ViewData["Title"] = "Borrow Books";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Borrow Books</h2>
+            <div class="card">
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Select a book from the list below to borrow. You can borrow up to 5 books at a time.
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Genre</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Book list will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Your Current Borrowings</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Borrowed Date</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Current borrowings will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            loadAvailableBooks();
+            loadCurrentBorrowings();
+        });
+
+        function loadAvailableBooks() {
+            $.get('/Book/GetAvailableBooks', function(data) {
+                var tbody = $('table:first tbody');
+                tbody.empty();
+                
+                data.forEach(function(book) {
+                    var row = `
+                        <tr>
+                            <td>${book.title}</td>
+                            <td>${book.author}</td>
+                            <td>${book.genre}</td>
+                            <td>
+                                <span class="badge ${book.availableCopies > 0 ? 'bg-success' : 'bg-danger'}">
+                                    ${book.availableCopies > 0 ? 'Available' : 'Not Available'}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm ${book.availableCopies > 0 ? '' : 'disabled'}"
+                                        onclick="borrowBook(${book.id})">
+                                    <i class="fas fa-book-reader me-1"></i>Borrow
+                                </button>
+                            </td>
+                        </tr>`;
+                    tbody.append(row);
+                });
+            });
+        }
+
+        function loadCurrentBorrowings() {
+            $.get('/Book/GetCurrentBorrowings', function(data) {
+                var tbody = $('table:last tbody');
+                tbody.empty();
+                
+                data.forEach(function(borrowing) {
+                    var row = `
+                        <tr>
+                            <td>${borrowing.bookTitle}</td>
+                            <td>${new Date(borrowing.borrowDate).toLocaleDateString()}</td>
+                            <td>${new Date(borrowing.dueDate).toLocaleDateString()}</td>
+                            <td>
+                                <span class="badge ${borrowing.isOverdue ? 'bg-danger' : 'bg-info'}">
+                                    ${borrowing.isOverdue ? 'Overdue' : 'Active'}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="returnBook(${borrowing.bookId})">
+                                    <i class="fas fa-undo me-1"></i>Return
+                                </button>
+                            </td>
+                        </tr>`;
+                    tbody.append(row);
+                });
+            });
+        }
+
+        function borrowBook(bookId) {
+            $.post('/Book/Borrow/' + bookId, function(response) {
+                if (response.success) {
+                    loadAvailableBooks();
+                    loadCurrentBorrowings();
+                    toastr.success('Book borrowed successfully');
+                } else {
+                    toastr.error(response.message || 'Failed to borrow book');
+                }
+            });
+        }
+
+        function returnBook(bookId) {
+            $.post('/Book/Return/' + bookId, function(response) {
+                if (response.success) {
+                    loadAvailableBooks();
+                    loadCurrentBorrowings();
+                    toastr.success('Book returned successfully');
+                } else {
+                    toastr.error(response.message || 'Failed to return book');
+                }
+            });
+        }
+    </script>
+} 

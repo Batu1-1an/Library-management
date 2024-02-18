@@ -1,0 +1,183 @@
+@{
+    ViewData["Title"] = "Reading Analytics";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Reading Analytics</h2>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Reading History</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="readingHistoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Favorite Genres</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="genreDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Book Recommendations</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="bookRecommendations">
+                        <!-- Book recommendations will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Reading Statistics</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h3>Total Books Read</h3>
+                                <p class="stat-number" id="totalBooksRead">0</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h3>Average Reading Time</h3>
+                                <p class="stat-number" id="avgReadingTime">0 days</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h3>On-Time Returns</h3>
+                                <p class="stat-number" id="onTimeReturns">0%</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h3>Active Streak</h3>
+                                <p class="stat-number" id="activeStreak">0 days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.stat-card {
+    text-align: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #37517e;
+    margin: 0;
+}
+</style>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize charts
+            initializeCharts();
+            // Load statistics
+            loadStatistics();
+            // Load recommendations
+            loadRecommendations();
+        });
+
+        function initializeCharts() {
+            // Reading History Chart
+            const readingHistoryCtx = document.getElementById('readingHistoryChart').getContext('2d');
+            new Chart(readingHistoryCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Books Read',
+                        data: [4, 3, 5, 2, 6, 4],
+                        borderColor: '#37517e',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+
+            // Genre Distribution Chart
+            const genreDistributionCtx = document.getElementById('genreDistributionChart').getContext('2d');
+            new Chart(genreDistributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fiction', 'Non-Fiction', 'Science', 'History', 'Technology'],
+                    datasets: [{
+                        data: [30, 20, 15, 20, 15],
+                        backgroundColor: [
+                            '#37517e',
+                            '#47b2e4',
+                            '#209dd8',
+                            '#0678a4',
+                            '#045d87'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+
+        function loadStatistics() {
+            // Add AJAX call to load statistics
+        }
+
+        function loadRecommendations() {
+            // Add AJAX call to load book recommendations
+        }
+    </script>
+} 

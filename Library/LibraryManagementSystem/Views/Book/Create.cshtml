@@ -1,0 +1,145 @@
+@model LibraryManagementSystem.Models.Book
+
+@{
+    ViewData["Title"] = "Add New Book";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2>Add New Book</h2>
+
+            <!-- Excel Upload Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Bulk Import Books from Excel</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ImportFromExcel" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="excelFile" class="form-label">Select Excel File</label>
+                            <input type="file" class="form-control" id="excelFile" name="excelFile" accept=".xlsx,.xls" required />
+                            <small class="form-text text-muted">Excel file should have columns: Title, Author, ISBN, Genre, Publisher, PublicationDate, PageCount, CopyCount, Summary, ImageUrl</small>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">Import Books</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Single Book Form -->
+            <form asp-action="Create" method="post" id="createBookForm" 
+                  data-ajax="true" 
+                  data-ajax-method="POST"
+                  data-ajax-begin="onFormSubmit"
+                  data-ajax-complete="onFormComplete">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Author" class="control-label"></label>
+                    <input asp-for="Author" class="form-control" />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ISBN" class="control-label"></label>
+                    <input asp-for="ISBN" class="form-control" />
+                    <span asp-validation-for="ISBN" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Genre" class="control-label"></label>
+                    <select asp-for="Genre" asp-items="Html.GetEnumSelectList<Genre>()" class="form-control">
+                        <option value="">Select Genre</option>
+                    </select>
+                    <span asp-validation-for="Genre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Publisher" class="control-label"></label>
+                    <input asp-for="Publisher" class="form-control" />
+                    <span asp-validation-for="Publisher" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PublicationDate" class="control-label"></label>
+                    <input asp-for="PublicationDate" class="form-control" type="date" 
+                           max="@DateTime.Now.ToString("yyyy-MM-dd")"
+                           value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="PublicationDate" class="text-danger"></span>
+                    <small class="form-text text-muted">Select a date up to today</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PageCount" class="control-label"></label>
+                    <input asp-for="PageCount" class="form-control" type="number" />
+                    <span asp-validation-for="PageCount" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="CopyCount" class="control-label"></label>
+                    <input asp-for="CopyCount" class="form-control" type="number" />
+                    <span asp-validation-for="CopyCount" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Summary" class="control-label"></label>
+                    <textarea asp-for="Summary" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Summary" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="Enter the URL of the book cover image" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    <small class="form-text text-muted">Enter a valid URL for the book cover image (optional)</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <button type="submit" class="btn btn-primary" id="submitButton">Create</button>
+                    <a asp-action="Search" class="btn btn-secondary">Cancel</a>
+                    <div class="spinner-border text-primary d-none" id="submitSpinner" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function onFormSubmit() {
+            $("#submitButton").prop('disabled', true);
+            $("#submitSpinner").removeClass('d-none');
+        }
+
+        function onFormComplete() {
+            $("#submitButton").prop('disabled', false);
+            $("#submitSpinner").addClass('d-none');
+        }
+
+        // Client-side validation for ISBN
+        $(document).ready(function() {
+            $.validator.addMethod("validISBN", function(value, element) {
+                return /^(?:\d{10}|\d{13})$/.test(value);
+            }, "Please enter a valid 10 or 13 digit ISBN number.");
+
+            $("#createBookForm").validate({
+                rules: {
+                    ISBN: {
+                        required: true,
+                        validISBN: true
+                    }
+                }
+            });
+        });
+    </script>
+} 

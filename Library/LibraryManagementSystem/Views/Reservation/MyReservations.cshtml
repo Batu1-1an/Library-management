@@ -1,0 +1,68 @@
+@model IEnumerable<LibraryManagementSystem.Models.BookReservation>
+
+@{
+    ViewData["Title"] = "My Reservations";
+}
+
+<h1>My Reservations</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        You don't have any active reservations.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>Reserved On</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reservation in Model)
+                {
+                    <tr>
+                        <td>@reservation.Book.Title</td>
+                        <td>@reservation.Book.Author</td>
+                        <td>@reservation.ReservationDate.ToString("MMM dd, yyyy")</td>
+                        <td>
+                            @if (reservation.NotificationSentDate.HasValue)
+                            {
+                                <span class="badge bg-success">Available</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Waiting</span>
+                            }
+                        </td>
+                        <td>
+                            <form asp-action="Cancel" asp-route-id="@reservation.Id" method="post" style="display: inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this reservation?')">
+                                    Cancel
+                                </button>
+                            </form>
+                            <a asp-controller="Book" asp-action="Details" asp-route-id="@reservation.BookId" class="btn btn-info btn-sm">
+                                View Book
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+} 

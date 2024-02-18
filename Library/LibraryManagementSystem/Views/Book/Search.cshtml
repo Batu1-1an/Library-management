@@ -1,0 +1,46 @@
+@model LibraryManagementSystem.Models.BookSearchViewModel
+
+@{
+    ViewData["Title"] = "Search Books";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Search Books</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" action="@Url.Action("Search", "Book")" class="row g-3">
+                        <div class="col-md-3">
+                            <label for="searchTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="searchTitle" name="title" placeholder="Enter book title">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="searchAuthor" class="form-label">Author</label>
+                            <input type="text" class="form-control" id="searchAuthor" name="author" placeholder="Enter author name">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="searchGenre" class="form-label">Genre</label>
+                            <select class="form-select" id="searchGenre" name="genre" asp-items="Html.GetEnumSelectList<LibraryManagementSystem.Models.Genre>()">
+                                <option value="">All Genres</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="searchIsbn" class="form-label">ISBN</label>
+                            <input type="text" class="form-control" id="searchIsbn" name="isbn" placeholder="Enter ISBN">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="searchResults">
+        <!-- Search results will be displayed here -->
+    </div>
+</div> 

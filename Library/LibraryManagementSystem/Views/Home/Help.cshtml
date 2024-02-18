@@ -1,0 +1,162 @@
+@{
+    ViewData["Title"] = "Help Center";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group mb-4">
+                <a href="#borrowing" class="list-group-item list-group-item-action">Borrowing Books</a>
+                <a href="#returning" class="list-group-item list-group-item-action">Returning Books</a>
+                <a href="#penalties" class="list-group-item list-group-item-action">Penalties</a>
+                <a href="#account" class="list-group-item list-group-item-action">Account Management</a>
+                <a href="#faq" class="list-group-item list-group-item-action">FAQ</a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div id="borrowing" class="card mb-4">
+                <div class="card-body">
+                    <h4><i class="fas fa-book-reader me-2"></i>Borrowing Books</h4>
+                    <p>To borrow a book:</p>
+                    <ol>
+                        <li>Search for the book in the catalog</li>
+                        <li>Check if the book is available</li>
+                        <li>Click on "Borrow" button</li>
+                        <li>Confirm the borrowing period</li>
+                        <li>Pick up the book from the library</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="returning" class="card mb-4">
+                <div class="card-body">
+                    <h4><i class="fas fa-undo me-2"></i>Returning Books</h4>
+                    <p>To return a book:</p>
+                    <ol>
+                        <li>Bring the book to the library</li>
+                        <li>Hand it over to the librarian</li>
+                        <li>Get a return confirmation</li>
+                        <li>Check your account for any penalties</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="penalties" class="card mb-4">
+                <div class="card-body">
+                    <h4><i class="fas fa-dollar-sign me-2"></i>Penalties</h4>
+                    <p>Penalty rates and rules:</p>
+                    <ul>
+                        <li>$0.50 per day for overdue books</li>
+                        <li>Penalties start accumulating after due date</li>
+                        <li>Maximum penalty is $50 per book</li>
+                        <li>Penalties can be paid online or at the library</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="account" class="card mb-4">
+                <div class="card-body">
+                    <h4><i class="fas fa-user me-2"></i>Account Management</h4>
+                    <p>Managing your account:</p>
+                    <ul>
+                        <li>Update personal information</li>
+                        <li>Change password</li>
+                        <li>View borrowing history</li>
+                        <li>Check penalties</li>
+                        <li>Set notification preferences</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="faq" class="card">
+                <div class="card-body">
+                    <h4><i class="fas fa-question-circle me-2"></i>Frequently Asked Questions</h4>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How many books can I borrow at once?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You can borrow up to 5 books at a time.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    What is the standard borrowing period?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    The standard borrowing period is 14 days.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Can I extend my borrowing period?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, you can extend once for an additional 7 days if no one else has reserved the book.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: none;
+    margin-bottom: 1rem;
+}
+
+.list-group-item {
+    border: none;
+    padding: 0.75rem 1.25rem;
+    transition: all 0.2s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+}
+
+h4 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+ol, ul {
+    padding-left: 1.2rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+</style> 

@@ -1,0 +1,120 @@
+@model LibraryManagementSystem.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <a asp-action="UsersList" class="text-decoration-none">
+                <div class="card bg-primary text-white dashboard-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-users me-2"></i>Total Members
+                        </h5>
+                        <h2 class="mb-0">@Model.TotalMembers</h2>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a asp-controller="Book" asp-action="Index" class="text-decoration-none">
+                <div class="card bg-success text-white dashboard-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-book me-2"></i>Total Books
+                        </h5>
+                        <h2 class="mb-0">@Model.TotalBooks</h2>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a asp-action="ActiveBorrowings" class="text-decoration-none">
+                <div class="card bg-info text-white dashboard-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-book-reader me-2"></i>Active Borrowings
+                        </h5>
+                        <h2 class="mb-0">@Model.ActiveBorrowings</h2>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a asp-action="Penalties" class="text-decoration-none">
+                <div class="card bg-warning text-white dashboard-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-dollar-sign me-2"></i>Total Penalties
+                        </h5>
+                        <h2 class="mb-0">$@Model.TotalPenalties.ToString("0.00")</h2>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-history me-2"></i>Recent Activities
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>User</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var activity in Model.RecentActivities)
+                        {
+                            <tr>
+                                <td>@activity.Description</td>
+                                <td>@activity.Name</td>
+                                <td>@activity.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.dashboard-card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.card-title {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.table th {
+    font-weight: 600;
+    color: #37517e;
+}
+
+.table td {
+    vertical-align: middle;
+}
+</style>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+} 

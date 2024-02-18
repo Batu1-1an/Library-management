@@ -1,0 +1,217 @@
+@model List<LibraryManagementSystem.Models.UserListViewModel>
+
+@{
+    ViewData["Title"] = "Users Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">
+        <i class="fas fa-users me-2"></i>Users Management
+    </h1>
+    <div class="d-flex gap-2">
+        <div class="search-box">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search users...">
+            <i class="fas fa-search"></i>
+        </div>
+        <a asp-action="ExportUsersList" class="btn btn-primary">
+            <i class="fas fa-file-export me-2"></i>Export List
+        </a>
+    </div>
+</div>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <i class="fas fa-user me-2"></i>NAME
+                    </th>
+                    <th scope="col">
+                        <i class="fas fa-envelope me-2"></i>EMAIL
+                    </th>
+                    <th scope="col">
+                        <i class="fas fa-check-circle me-2"></i>STATUS
+                    </th>
+                    <th scope="col">
+                        <i class="fas fa-calendar me-2"></i>REGISTER DATE
+                    </th>
+                    <th scope="col">
+                        <i class="fas fa-user-shield me-2"></i>ROLE
+                    </th>
+                    <th scope="col">
+                        <i class="fas fa-cog me-2"></i>ACTIONS
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar me-3">@user.Name[0]</div>
+                                <div>
+                                    <div class="fw-bold">@user.Name</div>
+                                    <small class="text-muted">ID: @user.Id</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>@user.Email</td>
+                        <td>
+                            @if (user.IsActive)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check me-1"></i>Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-times me-1"></i>Inactive
+                                </span>
+                            }
+                        </td>
+                        <td>@user.RegisterDate.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            @if (user.IsAdmin)
+                            {
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-user-shield me-1"></i>Admin
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-primary">
+                                    <i class="fas fa-user me-1"></i>User
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a asp-action="ViewBorrowings" asp-route-id="@user.Id" 
+                                   class="btn btn-sm btn-info" title="View Borrowings">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>
+                                <a asp-action="EditUser" asp-route-id="@user.Id" 
+                                   class="btn btn-sm btn-primary" title="Edit User">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post" 
+                                      onsubmit="return confirm('Are you sure you want to delete this user?');" 
+                                      style="display: inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete User">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("table tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}
+
+<style>
+.search-box {
+    position: relative;
+    width: 300px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color);
+    opacity: 0.5;
+}
+
+.search-box input {
+    padding-left: 40px;
+    border-radius: 25px;
+    border: 2px solid rgba(0,0,0,0.1);
+    transition: var(--transition);
+}
+
+.search-box input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem rgba(74, 105, 189, 0.1);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.btn-icon {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--background-color);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.btn-icon:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.badge {
+    padding: 0.5em 1em;
+    border-radius: 50px;
+    font-weight: 500;
+}
+
+.badge-success {
+    background: #28a745;
+    color: white;
+}
+
+.badge-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.badge-info {
+    background: var(--accent-color);
+    color: white;
+}
+</style> 
