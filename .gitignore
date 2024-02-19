@@ -1,0 +1,108 @@
+# Ignore build results
+bin/
+obj/
+out/
+[Bb]uild/
+[Ll]og/
+TestResults/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider project files
+.idea/
+*.sln.iml
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# DotCover
+*.dotCover
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+
+# TeamCity
+_TeamCity*
+
+# DotSettings
+*.DotSettings.user
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# Entity Framework
+Migrations/
+
+# Sensitive configuration files
+**/appsettings.Development.json
+**/appsettings.Local.json
+secrets.json
+
+# npm packages
+node_modules/
+
+# Others
+*.vspscc
+*.vssscc
+*.cache
+*.pdb
+*.mdb
+*.dbmdl
+*.bak
+*.backup
+*.mdf
+*.ldf
+*.ndf
+*.sql
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# NuGet packages
+*.nupkg
+# The packages folder can be ignored because of PackageReference
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# JetBrains Rider
+.idea/
+
+# Backup & temp files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.swn
+*.orig
+*.rej
+*.~*
+
+# Publish directory
+publish/
